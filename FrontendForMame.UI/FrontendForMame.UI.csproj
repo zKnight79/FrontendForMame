@@ -16,11 +16,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Exit.png" />
+    <None Remove="Shutdown.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="5.0.1" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.4.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Data\Exit.png" />
+    <Resource Include="Data\Shutdown.png" />
   </ItemGroup>
 
   <ItemGroup>
