@@ -68,6 +68,17 @@
                 <TextBlock Text="{Binding Controller2Name}" />
             </Label>
         </Grid>
-        <Grid></Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="160" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="80" />
+            </Grid.RowDefinitions>
+            <Image Grid.Row="0" Source="{Binding GameLogoPath}" />
+            <MediaElement Grid.Row="1" x:Name="GameSnapControl" Source="{Binding GameSnapPath}" LoadedBehavior="Play" />
+            <Label Grid.Row="2" FontSize="32" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="{Binding GameFullName}" />
+            </Label>
+        </Grid>
     </DockPanel>
 </Window>

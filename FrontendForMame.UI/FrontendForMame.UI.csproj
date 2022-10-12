@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <Resource Include="Data\Exit.png" />
+    <Resource Include="Data\Missing.png" />
     <Resource Include="Data\Shutdown.png" />
   </ItemGroup>
 
