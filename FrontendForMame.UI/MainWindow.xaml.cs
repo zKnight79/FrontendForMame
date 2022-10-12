@@ -14,6 +14,8 @@ public partial class MainWindow : Window
     }
 
     public string Version { get; set; } = App.Version;
+    public string Controller1Name { get; set; } = "Controller 1";
+    public string Controller2Name { get; set; } = "Controller 2";
 
     private void Exit_Click(object sender, RoutedEventArgs e)
     {
