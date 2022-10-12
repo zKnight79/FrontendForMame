@@ -13,6 +13,8 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
+    public string Version { get; set; } = App.Version;
+
     private void Exit_Click(object sender, RoutedEventArgs e)
     {
         Close();

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using System;
+using System.Reflection;
 using System.Windows;
 
 namespace FrontendForMame.UI;
@@ -79,5 +80,25 @@ public partial class App : Application
         }
 
         return serviceInstance;
+    }
+
+    public static string Version
+    {
+        get
+        {
+            string version = "";
+
+            Assembly? ass = Assembly.GetEntryAssembly();
+            if (ass is not null)
+            {
+                AssemblyInformationalVersionAttribute? attr = ass.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
+                if (attr is not null)
+                {
+                    version = attr.InformationalVersion;
+                }
+            }
+
+            return version;
+        }
     }
 }
