@@ -7,6 +7,28 @@
         mc:Ignorable="d"
         Title="Frontend for MAME" Height="450" Width="800" Background="#FF150F44" WindowStyle="None" WindowState="Maximized"
         DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Style.Setters>
+                <Setter Property="BorderBrush" Value="#00000000" />
+                <Setter Property="Background" Value="#00000000" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style.Setters>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#20FFFFFF"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <DockPanel>
         <Grid DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
@@ -21,10 +43,10 @@
             <Label Grid.Column="1" FontSize="16" Foreground="#FF94BECC" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="{Binding Path=Version, StringFormat='v{0}'}" />
             </Label>
-            <Button Grid.Column="2" BorderBrush="#00000000" Background="#00000000" Click="Exit_Click">
+            <Button Grid.Column="2" Click="Exit_Click">
                 <Image Source="/Data/Exit.png"></Image>
             </Button>
-            <Button Grid.Column="3" BorderBrush="#00000000" Background="#00000000" Click="Shutdown_Click">
+            <Button Grid.Column="3" Click="Shutdown_Click">
                 <Image Source="/Data/Shutdown.png"></Image>
             </Button>
         </Grid>
