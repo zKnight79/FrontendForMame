@@ -28,6 +28,12 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="Label">
+            <Style.Setters>
+                <Setter Property="Foreground" Value="#FF94BECC" />
+                <Setter Property="FontSize" Value="16" />
+            </Style.Setters>
+        </Style>
     </Window.Resources>
     <DockPanel>
         <Grid DockPanel.Dock="Top">
@@ -37,10 +43,10 @@
                 <ColumnDefinition Width="80" />
                 <ColumnDefinition Width="80" />
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" FontSize="48" FontStyle="Italic" FontWeight="Bold" Foreground="#FF94BECC" Margin="20,0,0,0">
+            <Label Grid.Column="0" FontSize="48" FontStyle="Italic" FontWeight="Bold" Margin="20,0,0,0">
                 Frontend for MAME
             </Label>
-            <Label Grid.Column="1" FontSize="16" Foreground="#FF94BECC" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Label Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="{Binding Path=Version, StringFormat='v{0}'}" />
             </Label>
             <Button Grid.Column="2" Click="Exit_Click">
@@ -55,10 +61,10 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" FontSize="16" Foreground="#FF94BECC" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Label Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
                 Controller 1
             </Label>
-            <Label Grid.Column="1" FontSize="16" Foreground="#FF94BECC" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Label Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                 Controller 2
             </Label>
         </Grid>
