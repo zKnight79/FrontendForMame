@@ -1,7 +1,8 @@
-﻿using System.ComponentModel;
-using System.Diagnostics;
+﻿using FrontendForMame.UI.Helpers;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Input;
 
 namespace FrontendForMame.UI;
 
@@ -16,11 +17,13 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     }
 
     public string Version { get; set; } = App.Version;
-    public string Controller1Name { get; set; } = "Controller 1";
-    public string Controller2Name { get; set; } = "Controller 2";
-    public string GameFullName { get; set; } = "Game Full Name";
-    public string GameLogoPath{ get; set; } = "/Data/Missing.png";
-    public string GameSnapPath { get; set; } = string.Empty;
+    public string? FrontendTitle { get; set; }
+    public string? Controller1Name { get; set; }
+    public string? Controller2Name { get; set; }
+    public string? GameFullName { get; set; }
+    public string? GameLogoPath { get; set; }
+    public string? GameSnapPath { get; set; }
+    public string? GamePreviewPath { get; set; }
 
     public event PropertyChangedEventHandler? PropertyChanged;
     protected void OnPropertyChanged([CallerMemberName] string? name = null)
@@ -35,13 +38,35 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void Shutdown_Click(object sender, RoutedEventArgs e)
     {
-        ProcessStartInfo psi = new()
+#if DEBUG
+        MessageBox.Show(@"Shutdown /!\");
+#else
+        ProcessHelper.ExecuteProcess("shutdown", "/s", "/t 0");
+#endif
+    }
+
+    private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        switch (e.Key)
         {
-            FileName = "shutdown",
-            Arguments = "/s /t 0",
-            CreateNoWindow = true,
-            UseShellExecute = false
-        };
-        Process.Start(psi);
+            case Key.Up:
+                break;
+            case Key.Down:
+                break;
+            case Key.Space:
+                break;
+            case Key.E:
+                if (e.KeyboardDevice.Modifiers == ModifierKeys.Control)
+                {
+                    Exit_Click(sender, e);
+                }
+                break;
+            case Key.S:
+                if (e.KeyboardDevice.Modifiers == ModifierKeys.Control)
+                {
+                    Shutdown_Click(sender, e);
+                }
+                break;
+        }
     }
 }

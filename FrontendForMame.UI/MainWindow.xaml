@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:FrontendForMame.UI"
         mc:Ignorable="d"
         Title="Frontend for MAME" Height="450" Width="800" Background="#FF150F44" WindowStyle="None" WindowState="Maximized"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}">
+        DataContext="{Binding RelativeSource={RelativeSource Self}}" KeyDown="Window_KeyDown">
     <Window.Resources>
         <Style TargetType="Button">
             <Style.Setters>
@@ -34,6 +34,8 @@
                 <Setter Property="FontSize" Value="20" />
             </Style.Setters>
         </Style>
+        <BitmapImage x:Key="DefaultLogo" UriSource="/Data/Missing.png" />
+        <BitmapImage x:Key="DefaultPreview" UriSource="/Data/NoPreview.png" />
     </Window.Resources>
     <DockPanel>
         <Grid DockPanel.Dock="Top">
@@ -44,10 +46,10 @@
                 <ColumnDefinition Width="80" />
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" FontSize="48" FontStyle="Italic" FontWeight="Bold" Margin="20,0,0,0">
-                Frontend for MAME
+                <TextBlock Text="{Binding FrontendTitle, FallbackValue='Frontend for MAME', TargetNullValue='Frontend for MAME'}" />
             </Label>
             <Label Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="{Binding Version, StringFormat='v{0}'}" />
+                <TextBlock Text="{Binding Version, StringFormat='v{0}', FallbackValue='Version'}" />
             </Label>
             <Button Grid.Column="2" Click="Exit_Click">
                 <Image Source="/Data/Exit.png"></Image>
@@ -62,10 +64,10 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="{Binding Controller1Name}" />
+                <TextBlock Text="{Binding Controller1Name, FallbackValue='Controller 1', TargetNullValue='Controller 1'}" />
             </Label>
             <Label Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="{Binding Controller2Name}" />
+                <TextBlock Text="{Binding Controller2Name, FallbackValue='Controller 2', TargetNullValue='Controller 2'}" />
             </Label>
         </Grid>
         <Grid>
@@ -74,10 +76,11 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="80" />
             </Grid.RowDefinitions>
-            <Image Grid.Row="0" Source="{Binding GameLogoPath}" />
-            <MediaElement Grid.Row="1" x:Name="GameSnapControl" Source="{Binding GameSnapPath}" LoadedBehavior="Play" />
+            <Image Grid.Row="0" Source="{Binding GameLogoPath, FallbackValue={StaticResource DefaultLogo}, TargetNullValue={StaticResource DefaultLogo}}" />
+            <MediaElement Grid.Row="1" Visibility="Hidden" x:Name="GameSnapControl" Source="{Binding GameSnapPath}" LoadedBehavior="Manual" />
+            <Image Grid.Row="1" x:Name="GamePreviewControl" Source="{Binding GamePreviewPath, FallbackValue={StaticResource DefaultPreview}, TargetNullValue={StaticResource DefaultPreview}}" />
             <Label Grid.Row="2" FontSize="32" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock Text="{Binding GameFullName}" />
+                <TextBlock Text="{Binding GameFullName, FallbackValue='Game Full Name', TargetNullValue='Game Full Name'}" />
             </Label>
         </Grid>
     </DockPanel>
