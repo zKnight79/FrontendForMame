@@ -21,6 +21,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         
         _configuration = configuration;
 
+        #region WINDOW CONFIGURATION
         if (_configuration.GetLaunchFullscreen())
         {
             WindowStyle = WindowStyle.None;
@@ -30,10 +31,18 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         {
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
+        #endregion
+
+        #region CUSTOMIZED TITLE
+        string customizedTitle = _configuration.GetCustomizedTitle();
+        if (!string.IsNullOrWhiteSpace(customizedTitle))
+        {
+            Title = customizedTitle;
+        }
+        #endregion
     }
 
     public string Version { get; set; } = App.Version;
-    public string? FrontendTitle { get; set; }
     public string? Controller1Name { get; set; }
     public string? Controller2Name { get; set; }
     public string? GameFullName { get; set; }
