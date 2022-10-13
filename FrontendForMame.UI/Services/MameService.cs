@@ -43,4 +43,20 @@ class MameService : IMameService
         
         return mameRomDefs;
     }
+
+    public string? GetRomLogoPath(MameRomDef? romDef)
+    {
+        string? logoPath = null;
+
+        if (romDef is not null)
+        {
+            string path = Path.Combine(_configuration.GetMameRomLogoDirectory(), $"{romDef.RomName}.png");
+            if (File.Exists(path))
+            {
+                logoPath = path;
+            }
+        }
+
+        return logoPath;
+    }
 }

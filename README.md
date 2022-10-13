@@ -10,7 +10,7 @@ working on Windows.
     - [x] Exit button
     - [x] System shutdown button
     - [x] Game title
-    - [ ] Game logo
+    - [x] Game logo
     - [ ] Game snap video
     - [ ] Game preview screenshot
     - [ ] Game controller names (1 & 2)

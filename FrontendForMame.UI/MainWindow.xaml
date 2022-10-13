@@ -94,7 +94,7 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="80" />
             </Grid.RowDefinitions>
-            <Image Grid.Row="0" Source="{Binding GameLogoPath, FallbackValue={StaticResource DefaultLogo}, TargetNullValue={StaticResource DefaultLogo}}" />
+            <Image Grid.Row="0" Source="{Binding CurrentMameRomLogoPath, FallbackValue={StaticResource DefaultLogo}, TargetNullValue={StaticResource DefaultLogo}}" />
             <Grid Grid.Row="1">
                 <MediaElement x:Name="GameSnapControl" Visibility="Hidden" Source="{Binding GameSnapPath}" LoadedBehavior="Manual" />
                 <Image x:Name="GamePreviewControl" Source="{Binding GamePreviewPath, FallbackValue={StaticResource DefaultPreview}, TargetNullValue={StaticResource DefaultPreview}}" />

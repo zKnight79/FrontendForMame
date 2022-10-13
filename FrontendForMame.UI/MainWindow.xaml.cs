@@ -54,6 +54,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     public int CurrentMameRomDefId { get; set; }
     public MameRomDef? CurrentMameRomDef => MameRomDefs?.ElementAt(CurrentMameRomDefId);
     public int MameRomDefCount => MameRomDefs?.Count() ?? 0;
+    public string? CurrentMameRomLogoPath => _mameService?.GetRomLogoPath(CurrentMameRomDef);
 
     private void ChangeCurrentMameRomDef(int direction)
     {
@@ -69,14 +70,18 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             {
                 CurrentMameRomDefId %= MameRomDefCount;
             }
-            OnPropertyChanged(nameof(CurrentMameRomDef));
+            NotifyCurrentMameRomChanged();
         }
+    }
+
+    private void NotifyCurrentMameRomChanged()
+    {
+        OnPropertyChanged(nameof(CurrentMameRomDef));
+        OnPropertyChanged(nameof(CurrentMameRomLogoPath));
     }
 
     public string? Controller1Name { get; set; }
     public string? Controller2Name { get; set; }
-    public string? GameFullName { get; set; }
-    public string? GameLogoPath { get; set; }
     public string? GameSnapPath { get; set; }
     public string? GamePreviewPath { get; set; }
 
@@ -129,7 +134,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
         MameRomDefs = _mameService.GetRomDefinitions();
-        OnPropertyChanged(nameof(CurrentMameRomDef));
+        NotifyCurrentMameRomChanged();
     }
 
     private void Left_Click(object sender, RoutedEventArgs e)
