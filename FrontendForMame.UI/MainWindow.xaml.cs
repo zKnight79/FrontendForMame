@@ -1,4 +1,6 @@
-﻿using FrontendForMame.UI.Helpers;
+﻿using FrontendForMame.UI.Extensions;
+using FrontendForMame.UI.Helpers;
+using Microsoft.Extensions.Configuration;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -11,9 +13,23 @@ namespace FrontendForMame.UI;
 /// </summary>
 public partial class MainWindow : Window, INotifyPropertyChanged
 {
-    public MainWindow()
+    private readonly IConfiguration _configuration;
+    
+    public MainWindow(IConfiguration configuration)
     {
         InitializeComponent();
+        
+        _configuration = configuration;
+
+        if (_configuration.GetLaunchFullscreen())
+        {
+            WindowStyle = WindowStyle.None;
+            WindowState = WindowState.Maximized;
+        }
+        else
+        {
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+        }
     }
 
     public string Version { get; set; } = App.Version;
@@ -38,7 +54,10 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void Shutdown_Click(object sender, RoutedEventArgs e)
     {
-        ProcessHelper.ExecuteProcess("shutdown", "/s", "/t 0");
+        if (_configuration.GetAllowSystemShutdown())
+        {
+            ProcessHelper.ExecuteProcess("shutdown", "/s", "/t 0");
+        }
     }
 
     private void Window_KeyDown(object sender, KeyEventArgs e)
