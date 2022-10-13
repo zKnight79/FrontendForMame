@@ -38,22 +38,21 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void Shutdown_Click(object sender, RoutedEventArgs e)
     {
-#if DEBUG
-        MessageBox.Show(@"Shutdown /!\");
-#else
         ProcessHelper.ExecuteProcess("shutdown", "/s", "/t 0");
-#endif
     }
 
-    private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    private void Window_KeyDown(object sender, KeyEventArgs e)
     {
         switch (e.Key)
         {
-            case Key.Up:
+            case Key.Left:
+                Left_Click(sender, e);
                 break;
-            case Key.Down:
+            case Key.Right:
+                Right_Click(sender, e);
                 break;
             case Key.Space:
+                Launch_Click(sender, e);
                 break;
             case Key.E:
                 if (e.KeyboardDevice.Modifiers == ModifierKeys.Control)
@@ -68,5 +67,20 @@ public partial class MainWindow : Window, INotifyPropertyChanged
                 }
                 break;
         }
+    }
+
+    private void Left_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
+
+    private void Right_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
+
+    private void Launch_Click(object sender, RoutedEventArgs e)
+    {
+
     }
 }

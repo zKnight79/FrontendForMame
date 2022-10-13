@@ -5,13 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FrontendForMame.UI"
         mc:Ignorable="d"
-        Title="Frontend for MAME" Height="450" Width="800" Background="#FF150F44" WindowStyle="None" WindowState="Maximized"
+        Title="Frontend for MAME" Height="600" Width="800" Background="#FF150F44"
         DataContext="{Binding RelativeSource={RelativeSource Self}}" KeyDown="Window_KeyDown">
     <Window.Resources>
         <Style TargetType="Button">
             <Style.Setters>
                 <Setter Property="BorderBrush" Value="#00000000" />
                 <Setter Property="Background" Value="#00000000" />
+                <Setter Property="Foreground" Value="#FF94BECC" />
+                <Setter Property="FontSize" Value="48" />
+                <Setter Property="FontWeight" Value="Bold" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
@@ -70,6 +73,16 @@
                 <TextBlock Text="{Binding Controller2Name, FallbackValue='Controller 2', TargetNullValue='Controller 2'}" />
             </Label>
         </Grid>
+        <Grid DockPanel.Dock="Left">
+            <Button Click="Left_Click">
+                &lt;
+            </Button>
+        </Grid>
+        <Grid DockPanel.Dock="Right">
+            <Button Click="Right_Click">
+                &gt;
+            </Button>
+        </Grid>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="160" />
@@ -77,11 +90,13 @@
                 <RowDefinition Height="80" />
             </Grid.RowDefinitions>
             <Image Grid.Row="0" Source="{Binding GameLogoPath, FallbackValue={StaticResource DefaultLogo}, TargetNullValue={StaticResource DefaultLogo}}" />
-            <MediaElement Grid.Row="1" Visibility="Hidden" x:Name="GameSnapControl" Source="{Binding GameSnapPath}" LoadedBehavior="Manual" />
-            <Image Grid.Row="1" x:Name="GamePreviewControl" Source="{Binding GamePreviewPath, FallbackValue={StaticResource DefaultPreview}, TargetNullValue={StaticResource DefaultPreview}}" />
-            <Label Grid.Row="2" FontSize="32" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Grid Grid.Row="1">
+                <MediaElement x:Name="GameSnapControl" Visibility="Hidden" Source="{Binding GameSnapPath}" LoadedBehavior="Manual" />
+                <Image x:Name="GamePreviewControl" Source="{Binding GamePreviewPath, FallbackValue={StaticResource DefaultPreview}, TargetNullValue={StaticResource DefaultPreview}}" />
+            </Grid>
+            <Button Grid.Row="2" FontSize="32" Click="Launch_Click">
                 <TextBlock Text="{Binding GameFullName, FallbackValue='Game Full Name', TargetNullValue='Game Full Name'}" />
-            </Label>
+            </Button>
         </Grid>
     </DockPanel>
 </Window>
