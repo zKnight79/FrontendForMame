@@ -11,7 +11,7 @@ working on Windows.
     - [x] System shutdown button
     - [x] Game title
     - [x] Game logo
-    - [ ] Game snap video
+    - [x] Game snap video
     - [ ] Game preview screenshot
     - [ ] Game controller names (1 & 2)
 - [ ] Allow user to launch game

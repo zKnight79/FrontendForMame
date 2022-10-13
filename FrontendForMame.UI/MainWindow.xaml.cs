@@ -55,6 +55,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     public MameRomDef? CurrentMameRomDef => MameRomDefs?.ElementAt(CurrentMameRomDefId);
     public int MameRomDefCount => MameRomDefs?.Count() ?? 0;
     public string? CurrentMameRomLogoPath => _mameService?.GetRomLogoPath(CurrentMameRomDef);
+    public string? CurrentMameRomSnapPath => _mameService?.GetRomSnapPath(CurrentMameRomDef);
 
     private void ChangeCurrentMameRomDef(int direction)
     {
@@ -78,11 +79,23 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     {
         OnPropertyChanged(nameof(CurrentMameRomDef));
         OnPropertyChanged(nameof(CurrentMameRomLogoPath));
+        OnPropertyChanged(nameof(CurrentMameRomSnapPath));
+
+        if (CurrentMameRomSnapPath is not null)
+        {
+            GamePreviewControl.Visibility = Visibility.Hidden;
+            GameSnapControl.Visibility = Visibility.Visible;
+            GameSnapControl.Play();
+        }
+        else
+        {
+            GamePreviewControl.Visibility = Visibility.Visible;
+            GameSnapControl.Visibility = Visibility.Hidden;
+        }
     }
 
     public string? Controller1Name { get; set; }
     public string? Controller2Name { get; set; }
-    public string? GameSnapPath { get; set; }
     public string? GamePreviewPath { get; set; }
 
     public event PropertyChangedEventHandler? PropertyChanged;

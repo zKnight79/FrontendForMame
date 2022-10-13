@@ -59,4 +59,20 @@ class MameService : IMameService
 
         return logoPath;
     }
+
+    public string? GetRomSnapPath(MameRomDef? romDef)
+    {
+        string? snapPath = null;
+
+        if (romDef is not null)
+        {
+            string path = Path.Combine(_configuration.GetMameRomSnapDirectory(), $"{romDef.RomName}.wmv");
+            if (File.Exists(path))
+            {
+                snapPath = path;
+            }
+        }
+
+        return snapPath;
+    }
 }
