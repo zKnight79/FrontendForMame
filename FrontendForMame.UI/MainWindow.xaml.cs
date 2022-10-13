@@ -1,7 +1,11 @@
 ﻿using FrontendForMame.UI.Extensions;
 using FrontendForMame.UI.Helpers;
+using FrontendForMame.UI.Model;
+using FrontendForMame.UI.Services;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
@@ -14,12 +18,14 @@ namespace FrontendForMame.UI;
 public partial class MainWindow : Window, INotifyPropertyChanged
 {
     private readonly IConfiguration _configuration;
-    
-    public MainWindow(IConfiguration configuration)
+    private readonly IMameService _mameService;
+
+    public MainWindow(IConfiguration configuration, IMameService mameService)
     {
         InitializeComponent();
-        
+
         _configuration = configuration;
+        _mameService = mameService;
 
         #region WINDOW CONFIGURATION
         if (_configuration.GetLaunchFullscreen())
@@ -43,6 +49,30 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     }
 
     public string Version { get; set; } = App.Version;
+
+    public IEnumerable<MameRomDef>? MameRomDefs { get; set; }
+    public int CurrentMameRomDefId { get; set; }
+    public MameRomDef? CurrentMameRomDef => MameRomDefs?.ElementAt(CurrentMameRomDefId);
+    public int MameRomDefCount => MameRomDefs?.Count() ?? 0;
+
+    private void ChangeCurrentMameRomDef(int direction)
+    {
+        if (MameRomDefCount > 0)
+        {
+            CurrentMameRomDefId += direction;
+            if (CurrentMameRomDefId < 0)
+            {
+                CurrentMameRomDefId %= MameRomDefCount;
+                CurrentMameRomDefId += MameRomDefCount;
+            }
+            if (CurrentMameRomDefId >= MameRomDefCount)
+            {
+                CurrentMameRomDefId %= MameRomDefCount;
+            }
+            OnPropertyChanged(nameof(CurrentMameRomDef));
+        }
+    }
+
     public string? Controller1Name { get; set; }
     public string? Controller2Name { get; set; }
     public string? GameFullName { get; set; }
@@ -96,15 +126,20 @@ public partial class MainWindow : Window, INotifyPropertyChanged
                 break;
         }
     }
+    private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        MameRomDefs = _mameService.GetRomDefinitions();
+        OnPropertyChanged(nameof(CurrentMameRomDef));
+    }
 
     private void Left_Click(object sender, RoutedEventArgs e)
     {
-
+        ChangeCurrentMameRomDef(-1);
     }
 
     private void Right_Click(object sender, RoutedEventArgs e)
     {
-
+        ChangeCurrentMameRomDef(1);
     }
 
     private void Launch_Click(object sender, RoutedEventArgs e)

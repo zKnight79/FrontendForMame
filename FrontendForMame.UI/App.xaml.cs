@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FrontendForMame.UI.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -25,6 +26,7 @@ public partial class App : Application
             => loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration));
         hostBuilder.ConfigureServices(services =>
         {
+            services.AddTransient<IMameService, MameService>();
             services.AddTransient<MainWindow>();
         });
         _host = hostBuilder.Build();

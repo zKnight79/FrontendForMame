@@ -7,6 +7,7 @@ public static class ConfigurationExtensions
     private const string LAUNCHFULLSCREEN_KEY = "LaunchFullscreen";
     private const string ALLOWSYSTEMSHUTDOWN_KEY = "AllowSystemShutdown";
     private const string CUSTOMIZEDTITLE_KEY = "CustomizedTitle";
+    private const string MAMEROMLISTJSONSOURCE_KEY = "MameRomListJsonSource";
 
     public static bool GetLaunchFullscreen(this IConfiguration configuration)
         => configuration.GetValue<bool>(LAUNCHFULLSCREEN_KEY);
@@ -16,4 +17,7 @@ public static class ConfigurationExtensions
 
     public static string GetCustomizedTitle(this IConfiguration configuration)
         => configuration[CUSTOMIZEDTITLE_KEY];
+
+    public static string GetMameRomListJsonSource(this IConfiguration configuration)
+        => configuration[MAMEROMLISTJSONSOURCE_KEY];
 }

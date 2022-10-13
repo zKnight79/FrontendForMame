@@ -9,11 +9,11 @@ working on Windows.
     - [x] Customized title
     - [x] Exit button
     - [x] System shutdown button
-    - [ ] Game title
+    - [x] Game title
     - [ ] Game logo
     - [ ] Game snap video
     - [ ] Game preview screenshot
     - [ ] Game controller names (1 & 2)
 - [ ] Allow user to launch game
-- [ ] Allow user to browse games with Keyboard
+- [x] Allow user to browse games with Keyboard
 - [ ] Allow user to browse games with Game Controller

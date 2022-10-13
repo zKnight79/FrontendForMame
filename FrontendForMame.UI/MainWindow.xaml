@@ -5,8 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FrontendForMame.UI"
         mc:Ignorable="d"
-        Title="Frontend for MAME" Height="600" Width="800" Background="#FF150F44"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}" KeyDown="Window_KeyDown">
+        Title="Frontend for MAME"
+        Height="600"
+        Width="800"
+        Background="#FF150F44"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        KeyDown="Window_KeyDown"
+        Loaded="Window_Loaded">
     <Window.Resources>
         <Style TargetType="Button">
             <Style.Setters>
@@ -95,7 +100,7 @@
                 <Image x:Name="GamePreviewControl" Source="{Binding GamePreviewPath, FallbackValue={StaticResource DefaultPreview}, TargetNullValue={StaticResource DefaultPreview}}" />
             </Grid>
             <Button Grid.Row="2" FontSize="32" Click="Launch_Click">
-                <TextBlock Text="{Binding GameFullName, FallbackValue='Game Full Name', TargetNullValue='Game Full Name'}" />
+                <TextBlock Text="{Binding CurrentMameRomDef.FullName, FallbackValue='Game Full Name', TargetNullValue='Game Full Name'}" />
             </Button>
         </Grid>
     </DockPanel>
