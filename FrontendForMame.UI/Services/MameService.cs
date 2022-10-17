@@ -1,9 +1,11 @@
 ﻿using FrontendForMame.UI.Extensions;
+using FrontendForMame.UI.Helpers;
 using FrontendForMame.UI.Model;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -72,4 +74,14 @@ class MameService : IMameService
 
     public string? GetRomPreviewPath(MameRomDef? romDef)
         => GetRomAssetPath(romDef, _mameConfig.RomPreviewDirectory, "png", "jpg", "bmp");
+
+    public void LaunchGame(MameRomDef? romDef)
+    {
+        if (romDef is not null)
+        {
+            string mameExePath = Path.Combine(_mameConfig.MameDirectory, "mame.exe");
+            Process? process = ProcessHelper.ExecuteProcess(mameExePath, romDef.RomName, $"-inipath \"{_mameConfig.MameDirectory}\"");
+            process?.WaitForExit();
+        }
+    }
 }

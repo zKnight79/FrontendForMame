@@ -4,7 +4,8 @@
         string RomListJsonSource,
         string RomLogoDirectory,
         string RomSnapDirectory,
-        string RomPreviewDirectory
+        string RomPreviewDirectory,
+        string MameDirectory
     )
     {
         public MameConfig()
@@ -12,7 +13,8 @@
                   "./mame-rom-list.json",
                   "./Logos",
                   "./Snaps",
-                  "./Previews"
+                  "./Previews",
+                  "./MAME"
               )
         { }
     }

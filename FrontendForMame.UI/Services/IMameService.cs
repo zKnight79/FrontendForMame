@@ -9,4 +9,5 @@ public interface IMameService
     string? GetRomLogoPath(MameRomDef? romDef);
     string? GetRomSnapPath(MameRomDef? romDef);
     string? GetRomPreviewPath(MameRomDef? romDef);
+    void LaunchGame(MameRomDef? romDef);
 }

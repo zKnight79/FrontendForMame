@@ -4,7 +4,7 @@ namespace FrontendForMame.UI.Helpers;
 
 public static class ProcessHelper
 {
-    public static void ExecuteProcess(string fileName, params string[] args)
+    public static Process? ExecuteProcess(string fileName, params string[] args)
     {
         string arguments = string.Join(' ', args);
         ProcessStartInfo psi = new()
@@ -14,6 +14,6 @@ public static class ProcessHelper
             CreateNoWindow = true,
             UseShellExecute = false
         };
-        Process.Start(psi);
+        return Process.Start(psi);
     }
 }

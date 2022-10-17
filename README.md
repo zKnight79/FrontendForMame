@@ -14,6 +14,6 @@ working on Windows.
     - [x] Game snap video
     - [x] Game preview screenshot
     - [ ] Game controller names (1 & 2)
-- [ ] Allow user to launch game
+- [x] Allow user to launch game
 - [x] Allow user to browse games with Keyboard
 - [ ] Allow user to browse games with Game Controller

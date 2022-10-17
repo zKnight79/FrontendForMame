@@ -155,7 +155,9 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void Launch_Click(object sender, RoutedEventArgs e)
     {
-
+        GameSnapControl.Pause();
+        _mameService.LaunchGame(CurrentMameRomDef);
+        GameSnapControl.Play();
     }
 
     private void GameSnapControl_Play(object sender, RoutedEventArgs e)
