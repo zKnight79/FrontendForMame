@@ -72,10 +72,10 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="{Binding Controller1Name, FallbackValue='Controller 1', TargetNullValue='Controller 1'}" />
+                <TextBlock Text="{Binding Controller1Name, FallbackValue='No Controller 1', TargetNullValue='No Controller 1'}" />
             </Label>
             <Label Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="{Binding Controller2Name, FallbackValue='Controller 2', TargetNullValue='Controller 2'}" />
+                <TextBlock Text="{Binding Controller2Name, FallbackValue='No Controller 2', TargetNullValue='No Controller 2'}" />
             </Label>
         </Grid>
         <Grid DockPanel.Dock="Left">

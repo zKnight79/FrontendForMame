@@ -20,13 +20,15 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 {
     private readonly IConfiguration _configuration;
     private readonly IMameService _mameService;
+    private readonly IControllerManager _controllerManager;
 
-    public MainWindow(IConfiguration configuration, IMameService mameService)
+    public MainWindow(IConfiguration configuration, IMameService mameService, IControllerManager controllerManager)
     {
-        InitializeComponent();
-
         _configuration = configuration;
         _mameService = mameService;
+        _controllerManager = controllerManager;
+
+        InitializeComponent();
 
         #region WINDOW CONFIGURATION
         if (_configuration.GetLaunchFullscreen())
@@ -46,6 +48,14 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         {
             Title = customizedTitle;
         }
+        #endregion
+
+        #region CONTROLLER EVENTS
+        _controllerManager.OnRight += () => Right_Click(this, null!);
+        _controllerManager.OnLeft += () => Left_Click(this, null!);
+        _controllerManager.OnLaunch += () => Launch_Click(this, null!);
+        _controllerManager.OnExit += () => Exit_Click(this, null!);
+        _controllerManager.OnShutdown += () => Shutdown_Click(this, null!);
         #endregion
     }
 
@@ -88,8 +98,8 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         OnPropertyChanged(nameof(CurrentMameRomPreviewPath));
     }
 
-    public string? Controller1Name { get; set; }
-    public string? Controller2Name { get; set; }
+    public string? Controller1Name => _controllerManager.Controller1Name;
+    public string? Controller2Name => _controllerManager.Controller2Name;
 
     public event PropertyChangedEventHandler? PropertyChanged;
     protected void OnPropertyChanged([CallerMemberName] string? name = null)
@@ -141,6 +151,10 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     {
         MameRomDefs = _mameService.GetRomDefinitions();
         NotifyCurrentMameRomChanged();
+
+        _controllerManager.Init();
+        OnPropertyChanged(nameof(Controller1Name));
+        OnPropertyChanged(nameof(Controller2Name));
     }
 
     private void Left_Click(object sender, RoutedEventArgs e)

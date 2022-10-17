@@ -27,6 +27,7 @@ public partial class App : Application
         hostBuilder.ConfigureServices(services =>
         {
             services.AddTransient<IMameService, MameService>();
+            services.AddTransient<IControllerManager, ControllerManager>();
             services.AddTransient<MainWindow>();
         });
         _host = hostBuilder.Build();
