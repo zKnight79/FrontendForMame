@@ -66,7 +66,7 @@ class MameService : IMameService
 
         if (romDef is not null)
         {
-            string path = Path.Combine(_configuration.GetMameRomSnapDirectory(), $"{romDef.RomName}.wmv");
+            string path = Path.Combine(_configuration.GetMameRomSnapDirectory(), $"{romDef.RomName}.mp4");
             if (File.Exists(path))
             {
                 snapPath = path;
