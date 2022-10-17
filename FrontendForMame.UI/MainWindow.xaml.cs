@@ -57,6 +57,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     public int MameRomDefCount => MameRomDefs?.Count() ?? 0;
     public string? CurrentMameRomLogoPath => _mameService?.GetRomLogoPath(CurrentMameRomDef);
     public string? CurrentMameRomSnapPath => _mameService?.GetRomSnapPath(CurrentMameRomDef);
+    public string? CurrentMameRomPreviewPath => _mameService?.GetRomPreviewPath(CurrentMameRomDef);
 
     private void ChangeCurrentMameRomDef(int direction)
     {
@@ -78,17 +79,17 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void NotifyCurrentMameRomChanged()
     {
+        GamePreviewControl.Visibility = Visibility.Visible;
+        GameSnapControl.Visibility = Visibility.Hidden;
+
         OnPropertyChanged(nameof(CurrentMameRomDef));
         OnPropertyChanged(nameof(CurrentMameRomLogoPath));
         OnPropertyChanged(nameof(CurrentMameRomSnapPath));
-
-        GamePreviewControl.Visibility = Visibility.Visible;
-        GameSnapControl.Visibility = Visibility.Hidden;
+        OnPropertyChanged(nameof(CurrentMameRomPreviewPath));
     }
 
     public string? Controller1Name { get; set; }
     public string? Controller2Name { get; set; }
-    public string? GamePreviewPath { get; set; }
 
     public event PropertyChangedEventHandler? PropertyChanged;
     protected void OnPropertyChanged([CallerMemberName] string? name = null)
@@ -165,6 +166,9 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void GameSnapControl_MediaOpened(object sender, RoutedEventArgs e)
     {
+        GamePreviewControl.Visibility = Visibility.Hidden;
+        GameSnapControl.Visibility = Visibility.Visible;
+
         /*
             Hack because
             Windows Media Player opens video
@@ -175,7 +179,5 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         {
             GameSnapControl.Position = GameSnapControl.NaturalDuration.TimeSpan.Subtract(TimeSpan.FromMilliseconds(1));
         }
-        GamePreviewControl.Visibility = Visibility.Hidden;
-        GameSnapControl.Visibility = Visibility.Visible;
     }
 }

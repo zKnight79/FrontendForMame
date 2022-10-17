@@ -11,6 +11,7 @@ public static class ConfigurationExtensions
     private const string MAMEROMLISTJSONSOURCE_KEY = "MameRomListJsonSource";
     private const string MAMEROMLOGODIRECTORY_KEY = "MameRomLogoDirectory";
     private const string MAMEROMSNAPDIRECTORY_KEY = "MameRomSnapDirectory";
+    private const string MAMEROMPREVIEWDIRECTORY_KEY = "MameRomPreviewDirectory";
 
     public static bool GetLaunchFullscreen(this IConfiguration configuration)
         => configuration.GetValue<bool>(LAUNCHFULLSCREEN_KEY);
@@ -32,4 +33,7 @@ public static class ConfigurationExtensions
 
     public static string GetMameRomSnapDirectory(this IConfiguration configuration)
         => configuration[MAMEROMSNAPDIRECTORY_KEY];
+
+    public static string GetMameRomPreviewDirectory(this IConfiguration configuration)
+        => configuration[MAMEROMPREVIEWDIRECTORY_KEY];
 }

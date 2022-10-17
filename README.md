@@ -12,7 +12,7 @@ working on Windows.
     - [x] Game title
     - [x] Game logo
     - [x] Game snap video
-    - [ ] Game preview screenshot
+    - [x] Game preview screenshot
     - [ ] Game controller names (1 & 2)
 - [ ] Allow user to launch game
 - [x] Allow user to browse games with Keyboard

@@ -44,35 +44,28 @@ class MameService : IMameService
         return mameRomDefs;
     }
 
-    public string? GetRomLogoPath(MameRomDef? romDef)
+    private string? GetRomAssetPath(MameRomDef? romDef, string assetBasePath, string assetExtension)
     {
-        string? logoPath = null;
+        string? assetPath = null;
 
         if (romDef is not null)
         {
-            string path = Path.Combine(_configuration.GetMameRomLogoDirectory(), $"{romDef.RomName}.png");
+            string path = Path.Combine(assetBasePath, $"{romDef.RomName}.{assetExtension}");
             if (File.Exists(path))
             {
-                logoPath = path;
+                assetPath = path;
             }
         }
 
-        return logoPath;
+        return assetPath;
     }
+
+    public string? GetRomLogoPath(MameRomDef? romDef)
+        => GetRomAssetPath(romDef, _configuration.GetMameRomLogoDirectory(), "png");
 
     public string? GetRomSnapPath(MameRomDef? romDef)
-    {
-        string? snapPath = null;
+        => GetRomAssetPath(romDef, _configuration.GetMameRomSnapDirectory(), "mp4");
 
-        if (romDef is not null)
-        {
-            string path = Path.Combine(_configuration.GetMameRomSnapDirectory(), $"{romDef.RomName}.mp4");
-            if (File.Exists(path))
-            {
-                snapPath = path;
-            }
-        }
-
-        return snapPath;
-    }
+    public string? GetRomPreviewPath(MameRomDef? romDef)
+        => GetRomAssetPath(romDef, _configuration.GetMameRomPreviewDirectory(), "png");
 }
