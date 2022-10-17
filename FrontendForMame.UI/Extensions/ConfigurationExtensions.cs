@@ -7,6 +7,7 @@ public static class ConfigurationExtensions
     private const string LAUNCHFULLSCREEN_KEY = "LaunchFullscreen";
     private const string ALLOWSYSTEMSHUTDOWN_KEY = "AllowSystemShutdown";
     private const string CUSTOMIZEDTITLE_KEY = "CustomizedTitle";
+    private const string USEVIDEOOPENEDHACK_KEY = "UseVideoOpenedHack";
     private const string MAMEROMLISTJSONSOURCE_KEY = "MameRomListJsonSource";
     private const string MAMEROMLOGODIRECTORY_KEY = "MameRomLogoDirectory";
     private const string MAMEROMSNAPDIRECTORY_KEY = "MameRomSnapDirectory";
@@ -19,6 +20,9 @@ public static class ConfigurationExtensions
 
     public static string GetCustomizedTitle(this IConfiguration configuration)
         => configuration[CUSTOMIZEDTITLE_KEY];
+
+    public static bool GetUseVideoOpenedHack(this IConfiguration configuration)
+        => configuration.GetValue<bool>(USEVIDEOOPENEDHACK_KEY);
 
     public static string GetMameRomListJsonSource(this IConfiguration configuration)
         => configuration[MAMEROMLISTJSONSOURCE_KEY];

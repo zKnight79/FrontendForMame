@@ -3,6 +3,7 @@ using FrontendForMame.UI.Helpers;
 using FrontendForMame.UI.Model;
 using FrontendForMame.UI.Services;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -81,17 +82,8 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         OnPropertyChanged(nameof(CurrentMameRomLogoPath));
         OnPropertyChanged(nameof(CurrentMameRomSnapPath));
 
-        if (CurrentMameRomSnapPath is not null)
-        {
-            GamePreviewControl.Visibility = Visibility.Hidden;
-            GameSnapControl.Visibility = Visibility.Visible;
-            GameSnapControl.Play();
-        }
-        else
-        {
-            GamePreviewControl.Visibility = Visibility.Visible;
-            GameSnapControl.Visibility = Visibility.Hidden;
-        }
+        GamePreviewControl.Visibility = Visibility.Visible;
+        GameSnapControl.Visibility = Visibility.Hidden;
     }
 
     public string? Controller1Name { get; set; }
@@ -163,5 +155,27 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     private void Launch_Click(object sender, RoutedEventArgs e)
     {
 
+    }
+
+    private void GameSnapControl_Play(object sender, RoutedEventArgs e)
+    {
+        GameSnapControl.Position = TimeSpan.Zero;
+        GameSnapControl.Play();
+    }
+
+    private void GameSnapControl_MediaOpened(object sender, RoutedEventArgs e)
+    {
+        /*
+            Hack because
+            Windows Media Player opens video
+            with black screen for a few second
+            only on the first play
+         */
+        if (_configuration.GetUseVideoOpenedHack())
+        {
+            GameSnapControl.Position = GameSnapControl.NaturalDuration.TimeSpan.Subtract(TimeSpan.FromMilliseconds(1));
+        }
+        GamePreviewControl.Visibility = Visibility.Hidden;
+        GameSnapControl.Visibility = Visibility.Visible;
     }
 }
