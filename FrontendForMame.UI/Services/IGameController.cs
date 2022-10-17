@@ -5,4 +5,9 @@ interface IGameController
     string? Name { get; }
 
     void Update();
+    void Reset();
+
+    bool JustHitRight();
+    bool JustHitLeft();
+    bool JustHitButton(int buttonId);
 }

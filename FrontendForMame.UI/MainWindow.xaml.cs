@@ -8,8 +8,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Timers;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace FrontendForMame.UI;
 
@@ -21,6 +23,11 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     private readonly IConfiguration _configuration;
     private readonly IMameService _mameService;
     private readonly IControllerManager _controllerManager;
+    private readonly DispatcherTimer _dispatcherTimer = new()
+    {
+        Interval = TimeSpan.FromMilliseconds(25),
+        IsEnabled = false
+    };
 
     public MainWindow(IConfiguration configuration, IMameService mameService, IControllerManager controllerManager)
     {
@@ -155,6 +162,9 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         _controllerManager.Init();
         OnPropertyChanged(nameof(Controller1Name));
         OnPropertyChanged(nameof(Controller2Name));
+
+        _dispatcherTimer.Tick += (sender, e) => _controllerManager.Update();
+        _dispatcherTimer.Start();
     }
 
     private void Left_Click(object sender, RoutedEventArgs e)
@@ -169,9 +179,11 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void Launch_Click(object sender, RoutedEventArgs e)
     {
+        _dispatcherTimer.Stop();
         GameSnapControl.Pause();
         _mameService.LaunchGame(CurrentMameRomDef);
         GameSnapControl.Play();
+        _dispatcherTimer.Start();
     }
 
     private void GameSnapControl_Play(object sender, RoutedEventArgs e)

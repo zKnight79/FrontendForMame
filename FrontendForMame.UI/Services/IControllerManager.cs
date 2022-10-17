@@ -15,4 +15,5 @@ public interface IControllerManager
     event ControllerManagerEventHandler? OnShutdown;
 
     void Init();
+    void Update();
 }
