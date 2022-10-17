@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using FrontendForMame.UI.Model;
+using Microsoft.Extensions.Configuration;
 
 namespace FrontendForMame.UI.Extensions;
 
@@ -8,10 +9,6 @@ public static class ConfigurationExtensions
     private const string ALLOWSYSTEMSHUTDOWN_KEY = "AllowSystemShutdown";
     private const string CUSTOMIZEDTITLE_KEY = "CustomizedTitle";
     private const string USEVIDEOOPENEDHACK_KEY = "UseVideoOpenedHack";
-    private const string MAMEROMLISTJSONSOURCE_KEY = "MameRomListJsonSource";
-    private const string MAMEROMLOGODIRECTORY_KEY = "MameRomLogoDirectory";
-    private const string MAMEROMSNAPDIRECTORY_KEY = "MameRomSnapDirectory";
-    private const string MAMEROMPREVIEWDIRECTORY_KEY = "MameRomPreviewDirectory";
 
     public static bool GetLaunchFullscreen(this IConfiguration configuration)
         => configuration.GetValue<bool>(LAUNCHFULLSCREEN_KEY);
@@ -25,15 +22,9 @@ public static class ConfigurationExtensions
     public static bool GetUseVideoOpenedHack(this IConfiguration configuration)
         => configuration.GetValue<bool>(USEVIDEOOPENEDHACK_KEY);
 
-    public static string GetMameRomListJsonSource(this IConfiguration configuration)
-        => configuration[MAMEROMLISTJSONSOURCE_KEY];
-
-    public static string GetMameRomLogoDirectory(this IConfiguration configuration)
-        => configuration[MAMEROMLOGODIRECTORY_KEY];
-
-    public static string GetMameRomSnapDirectory(this IConfiguration configuration)
-        => configuration[MAMEROMSNAPDIRECTORY_KEY];
-
-    public static string GetMameRomPreviewDirectory(this IConfiguration configuration)
-        => configuration[MAMEROMPREVIEWDIRECTORY_KEY];
+    public static MameConfig GetMameConfig(this IConfiguration configuration)
+    {
+        IConfigurationSection section = configuration.GetSection(nameof(MameConfig));
+        return section.Get<MameConfig>();
+    }
 }

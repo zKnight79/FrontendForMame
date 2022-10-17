@@ -12,13 +12,13 @@ namespace FrontendForMame.UI.Services;
 
 class MameService : IMameService
 {
-    private readonly IConfiguration _configuration;
     private readonly ILogger<MameService> _logger;
+    private readonly MameConfig _mameConfig;
 
     public MameService(IConfiguration configuration, ILogger<MameService> logger)
     {
-        _configuration = configuration;
         _logger = logger;
+        _mameConfig = configuration.GetMameConfig();
     }
 
     public IEnumerable<MameRomDef>? GetRomDefinitions()
@@ -27,7 +27,7 @@ class MameService : IMameService
 
         try
         {
-            string mameRomListJsonSource = _configuration.GetMameRomListJsonSource();
+            string mameRomListJsonSource = _mameConfig.RomListJsonSource;
             using FileStream fs = File.OpenRead(mameRomListJsonSource);
             mameRomDefs = JsonSerializer.Deserialize<IEnumerable<MameRomDef>>(fs);
             if (mameRomDefs is null)
@@ -44,16 +44,20 @@ class MameService : IMameService
         return mameRomDefs;
     }
 
-    private string? GetRomAssetPath(MameRomDef? romDef, string assetBasePath, string assetExtension)
+    private static string? GetRomAssetPath(MameRomDef? romDef, string assetBasePath, params string[] assetExtensions)
     {
         string? assetPath = null;
 
         if (romDef is not null)
         {
-            string path = Path.Combine(assetBasePath, $"{romDef.RomName}.{assetExtension}");
-            if (File.Exists(path))
+            foreach (string assetExtension in assetExtensions)
             {
-                assetPath = path;
+                string path = Path.Combine(assetBasePath, $"{romDef.RomName}.{assetExtension}");
+                if (File.Exists(path))
+                {
+                    assetPath = path;
+                    break;
+                }
             }
         }
 
@@ -61,11 +65,11 @@ class MameService : IMameService
     }
 
     public string? GetRomLogoPath(MameRomDef? romDef)
-        => GetRomAssetPath(romDef, _configuration.GetMameRomLogoDirectory(), "png");
+        => GetRomAssetPath(romDef, _mameConfig.RomLogoDirectory, "png", "jpg", "bmp");
 
     public string? GetRomSnapPath(MameRomDef? romDef)
-        => GetRomAssetPath(romDef, _configuration.GetMameRomSnapDirectory(), "mp4");
+        => GetRomAssetPath(romDef, _mameConfig.RomSnapDirectory, "mp4", "avi", "wmv");
 
     public string? GetRomPreviewPath(MameRomDef? romDef)
-        => GetRomAssetPath(romDef, _configuration.GetMameRomPreviewDirectory(), "png");
+        => GetRomAssetPath(romDef, _mameConfig.RomPreviewDirectory, "png", "jpg", "bmp");
 }
