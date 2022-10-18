@@ -89,6 +89,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void ChangeCurrentMameRomDef(int direction)
     {
+        _scrollDispatcher?.Stop();
         if (MameRomDefCount > 0)
         {
             CurrentMameRomDefId += direction;
@@ -103,6 +104,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             }
             NotifyCurrentMameRomChanged();
         }
+        _scrollDispatcher?.Start();
     }
     private void NotifyCurrentMameRomChanged()
     {
