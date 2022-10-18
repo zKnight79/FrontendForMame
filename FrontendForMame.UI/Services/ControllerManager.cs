@@ -2,6 +2,8 @@
 using FrontendForMame.UI.Model;
 using Microsoft.Extensions.Configuration;
 using SharpDX.DirectInput;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace FrontendForMame.UI.Services;
 
@@ -92,5 +94,17 @@ class ControllerManager : IControllerManager
                 #endregion
             }
         }
+    }
+
+    public IEnumerable<int>[] GetPressedButtons()
+    {
+        IEnumerable<int>[] retVal = new IEnumerable<int>[_controllers.Length];
+
+        for (int i = 0; i < _controllers.Length; ++i)
+        {
+            retVal[i] = _controllers[i]?.GetPressedButtons() ?? Enumerable.Empty<int>();
+        }
+
+        return retVal;
     }
 }

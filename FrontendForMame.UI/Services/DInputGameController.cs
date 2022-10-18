@@ -1,4 +1,5 @@
 ﻿using SharpDX.DirectInput;
+using System.Collections.Generic;
 
 namespace FrontendForMame.UI.Services;
 
@@ -36,4 +37,15 @@ class DInputGameController : IGameController
 
     public bool JustHitButton(int buttonId)
         => CurrentState.Buttons[buttonId] && !PreviousState.Buttons[buttonId];
+
+    public IEnumerable<int> GetPressedButtons()
+    {
+        for (int i=0;i<CurrentState.Buttons.Length; ++i)
+        {
+            if (CurrentState.Buttons[i])
+            {
+                yield return i;
+            }
+        }
+    }
 }

@@ -1,4 +1,6 @@
-﻿namespace FrontendForMame.UI.Services;
+﻿using System.Collections.Generic;
+
+namespace FrontendForMame.UI.Services;
 
 
 public delegate void ControllerManagerEventHandler();
@@ -16,4 +18,6 @@ public interface IControllerManager
 
     void Init();
     void Update();
+
+    IEnumerable<int>[] GetPressedButtons();
 }

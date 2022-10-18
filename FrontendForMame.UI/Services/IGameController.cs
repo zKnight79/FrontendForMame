@@ -1,4 +1,6 @@
-﻿namespace FrontendForMame.UI.Services;
+﻿using System.Collections.Generic;
+
+namespace FrontendForMame.UI.Services;
 
 interface IGameController
 {
@@ -10,4 +12,6 @@ interface IGameController
     bool JustHitRight();
     bool JustHitLeft();
     bool JustHitButton(int buttonId);
+
+    IEnumerable<int> GetPressedButtons();
 }

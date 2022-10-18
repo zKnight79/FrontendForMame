@@ -60,13 +60,16 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         #region CONTROLLER EVENTS
         _controllerManager.OnRight += () => Right_Click(this, null!);
         _controllerManager.OnLeft += () => Left_Click(this, null!);
-        _controllerManager.OnLaunch += () => Launch_Click(this, null!);
-        _controllerManager.OnExit += () => Exit_Click(this, null!);
-        _controllerManager.OnShutdown += () => Shutdown_Click(this, null!);
+        if (!_configuration.GetControllerTestMode())
+        {
+            _controllerManager.OnLaunch += () => Launch_Click(this, null!);
+            _controllerManager.OnExit += () => Exit_Click(this, null!);
+            _controllerManager.OnShutdown += () => Shutdown_Click(this, null!);
+        }
         #endregion
     }
 
-    public string Version { get; set; } = App.Version;
+    public string Version => App.Version;
 
     public IEnumerable<MameRomDef>? MameRomDefs { get; set; }
     public int CurrentMameRomDefId { get; set; }
@@ -107,6 +110,10 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     public string? Controller1Name => _controllerManager.Controller1Name;
     public string? Controller2Name => _controllerManager.Controller2Name;
+    public string ControllerTestHeight => _configuration.GetControllerTestMode() ? "*" : "0";
+    public string Controller1Buttons => $"[{string.Join(", ", _controllerManager.GetPressedButtons().ElementAt(0))}]";
+    public string Controller2Buttons => $"[{string.Join(", ", _controllerManager.GetPressedButtons().ElementAt(1))}]";
+
 
     public event PropertyChangedEventHandler? PropertyChanged;
     protected void OnPropertyChanged([CallerMemberName] string? name = null)
@@ -163,7 +170,12 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         OnPropertyChanged(nameof(Controller1Name));
         OnPropertyChanged(nameof(Controller2Name));
 
-        _dispatcherTimer.Tick += (sender, e) => _controllerManager.Update();
+        _dispatcherTimer.Tick += (sender, e) =>
+        {
+            _controllerManager.Update();
+            OnPropertyChanged(nameof(Controller1Buttons));
+            OnPropertyChanged(nameof(Controller2Buttons));
+        };
         _dispatcherTimer.Start();
     }
 
