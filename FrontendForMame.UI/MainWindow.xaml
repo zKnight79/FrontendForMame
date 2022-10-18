@@ -17,7 +17,7 @@
             <Style.Setters>
                 <Setter Property="BorderBrush" Value="#00000000" />
                 <Setter Property="Background" Value="#00000000" />
-                <Setter Property="Foreground" Value="#FF94BECC" />
+                <Setter Property="Foreground" Value="DarkOrange" />
                 <Setter Property="FontSize" Value="48" />
                 <Setter Property="FontWeight" Value="Bold" />
                 <Setter Property="Template">
@@ -38,7 +38,7 @@
         </Style>
         <Style TargetType="Label">
             <Style.Setters>
-                <Setter Property="Foreground" Value="#FF94BECC" />
+                <Setter Property="Foreground" Value="DarkOrange" />
                 <Setter Property="FontSize" Value="20" />
             </Style.Setters>
         </Style>
@@ -46,6 +46,9 @@
         <BitmapImage x:Key="DefaultPreview" UriSource="/Data/NoPreview.png" />
     </Window.Resources>
     <DockPanel>
+        <DockPanel.Background>
+            <ImageBrush ImageSource="{Binding CurrentMameRomPreviewPath}" Opacity="0.25" Stretch="UniformToFill" />
+        </DockPanel.Background>
         <Grid DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
