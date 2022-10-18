@@ -79,12 +79,21 @@ class MameService : IMameService
     {
         if (romDef is not null)
         {
-            string mameExePath = Path.Combine(_mameConfig.MameDirectory, "mame.exe");
-            Process? process = ProcessHelper.ExecuteProcess(
-                mameExePath,
+            List<string> args = new()
+            {
                 romDef.RomName,
                 $"-inipath \"{_mameConfig.MameDirectory}\"",
                 "-joystickprovider winhybrid"
+            };
+            if (_mameConfig.SkipGameInfo)
+            {
+                args.Add("-skip_gameinfo");
+            }
+            
+            string mameExePath = Path.Combine(_mameConfig.MameDirectory, "mame.exe");
+            Process? process = ProcessHelper.ExecuteProcess(
+                mameExePath,
+                args.ToArray()
             );
             process?.WaitForExit();
         }

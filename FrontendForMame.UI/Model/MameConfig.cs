@@ -5,7 +5,8 @@
         string RomLogoDirectory,
         string RomSnapDirectory,
         string RomPreviewDirectory,
-        string MameDirectory
+        string MameDirectory,
+        bool SkipGameInfo
     )
     {
         public MameConfig()
@@ -14,7 +15,8 @@
                   "./Logos",
                   "./Snaps",
                   "./Previews",
-                  "./MAME"
+                  "./MAME",
+                  true
               )
         { }
     }
