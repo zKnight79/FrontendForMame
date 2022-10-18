@@ -70,7 +70,7 @@ class MameService : IMameService
         => GetRomAssetPath(romDef, _mameConfig.RomLogoDirectory, "png", "jpg", "bmp");
 
     public string? GetRomSnapPath(MameRomDef? romDef)
-        => GetRomAssetPath(romDef, _mameConfig.RomSnapDirectory, "mp4", "avi", "wmv");
+        => GetRomAssetPath(romDef, _mameConfig.RomSnapDirectory, "wmv", "mp4", "avi");
 
     public string? GetRomPreviewPath(MameRomDef? romDef)
         => GetRomAssetPath(romDef, _mameConfig.RomPreviewDirectory, "png", "jpg", "bmp");
