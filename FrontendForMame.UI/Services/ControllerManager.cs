@@ -1,13 +1,20 @@
-﻿using SharpDX.DirectInput;
-using System;
-using System.Timers;
+﻿using FrontendForMame.UI.Extensions;
+using FrontendForMame.UI.Model;
+using Microsoft.Extensions.Configuration;
+using SharpDX.DirectInput;
 
 namespace FrontendForMame.UI.Services;
 
 class ControllerManager : IControllerManager
 {
     private readonly DirectInput _directInput = new();
-    private readonly IGameController[] _controllers = new IGameController[2];
+    private readonly IGameController?[] _controllers = new IGameController[2];
+    private readonly ControllerConfig _controllerConfig;
+
+    public ControllerManager(IConfiguration configuration)
+    {
+        _controllerConfig = configuration.GetControllerConfig();
+    }
 
     public string? Controller1Name => _controllers[0]?.Name;
     public string? Controller2Name => _controllers[1]?.Name;
@@ -40,69 +47,50 @@ class ControllerManager : IControllerManager
 
     public void Update()
     {
-        #region UPDATE CONTROLLERS
-        foreach (IGameController gameController in _controllers)
+        for (int i = 0; i < _controllers.Length; ++i)
         {
+            IGameController? gameController = _controllers[i];
             if (gameController is not null)
             {
+                #region UPDATE CONTROLLERS
                 gameController.Update();
+                #endregion
+                #region RIGHT EVENT
+                if (gameController.JustHitRight())
+                {
+                    OnRight?.Invoke();
+                    break;
+                }
+                #endregion
+                #region LEFT EVENT
+                if (gameController.JustHitLeft())
+                {
+                    OnLeft?.Invoke();
+                    break;
+                }
+                #endregion
+                #region LAUNCH EVENT
+                if (gameController.JustHitButton(_controllerConfig.GetLaunchButton(i)))
+                {
+                    OnLaunch?.Invoke();
+                    break;
+                }
+                #endregion
+                #region EXIT EVENT
+                if (gameController.JustHitButton(_controllerConfig.GetExitButton(i)))
+                {
+                    OnExit?.Invoke();
+                    break;
+                }
+                #endregion
+                #region SHUTDOWN EVENT
+                if (gameController.JustHitButton(_controllerConfig.GetShutdownButton(i)))
+                {
+                    OnShutdown?.Invoke();
+                    break;
+                }
+                #endregion
             }
         }
-        #endregion
-
-        #region RIGHT EVENT
-        foreach (IGameController gameController in _controllers)
-        {
-            if (gameController?.JustHitRight() ?? false)
-            {
-                OnRight?.Invoke();
-                break;
-            }
-        }
-        #endregion
-
-        #region LEFT EVENT
-        foreach (IGameController gameController in _controllers)
-        {
-            if (gameController?.JustHitLeft() ?? false)
-            {
-                OnLeft?.Invoke();
-                break;
-            }
-        }
-        #endregion
-
-        #region LAUNCH EVENT
-        foreach (IGameController gameController in _controllers)
-        {
-            if (gameController?.JustHitButton(0) ?? false)
-            {
-                OnLaunch?.Invoke();
-                break;
-            }
-        }
-        #endregion
-
-        #region EXIT EVENT
-        foreach (IGameController gameController in _controllers)
-        {
-            if (gameController?.JustHitButton(8) ?? false)
-            {
-                OnExit?.Invoke();
-                break;
-            }
-        }
-        #endregion
-
-        #region SHUTDOWN EVENT
-        foreach (IGameController gameController in _controllers)
-        {
-            if (gameController?.JustHitButton(9) ?? false)
-            {
-                OnShutdown?.Invoke();
-                break;
-            }
-        }
-        #endregion
     }
 }

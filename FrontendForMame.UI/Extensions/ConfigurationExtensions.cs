@@ -27,4 +27,10 @@ public static class ConfigurationExtensions
         IConfigurationSection section = configuration.GetSection(nameof(MameConfig));
         return section.Get<MameConfig>();
     }
+
+    public static ControllerConfig GetControllerConfig(this IConfiguration configuration)
+    {
+        IConfigurationSection section = configuration.GetSection(nameof(ControllerConfig));
+        return section.Get<ControllerConfig>();
+    }
 }

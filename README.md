@@ -5,7 +5,7 @@ working on Windows.
 
 ## Features
 
-- [ ] Display user interface
+- [x] Display user interface
     - [x] Customized title
     - [x] Exit button
     - [x] System shutdown button
@@ -13,7 +13,7 @@ working on Windows.
     - [x] Game logo
     - [x] Game snap video
     - [x] Game preview screenshot
-    - [ ] Game controller names (1 & 2)
+    - [x] Game controller names (1 & 2)
 - [x] Allow user to launch game
 - [x] Allow user to browse games with Keyboard
-- [ ] Allow user to browse games with Game Controller
+- [x] Allow user to browse games with Game Controller
