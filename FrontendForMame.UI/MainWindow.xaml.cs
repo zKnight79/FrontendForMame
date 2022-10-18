@@ -79,6 +79,13 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     public string? CurrentMameRomSnapPath => _mameService?.GetRomSnapPath(CurrentMameRomDef);
     public string? CurrentMameRomPreviewPath => _mameService?.GetRomPreviewPath(CurrentMameRomDef);
 
+    public int NextMameRomDefId => MameRomDefCount==0 ? 0 :(CurrentMameRomDefId + 1) % MameRomDefCount;
+    public int PreviousMameRomDefId => MameRomDefCount == 0 ? 0 : (MameRomDefCount + CurrentMameRomDefId - 1) % MameRomDefCount;
+    public MameRomDef? NextMameRomDef => MameRomDefs?.ElementAt(NextMameRomDefId);
+    public MameRomDef? PreviousMameRomDef => MameRomDefs?.ElementAt(PreviousMameRomDefId);
+    public string? NextMameRomLogoPath => _mameService?.GetRomLogoPath(NextMameRomDef);
+    public string? PreviousMameRomLogoPath => _mameService?.GetRomLogoPath(PreviousMameRomDef);
+
     private void ChangeCurrentMameRomDef(int direction)
     {
         if (MameRomDefCount > 0)
@@ -96,7 +103,6 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             NotifyCurrentMameRomChanged();
         }
     }
-
     private void NotifyCurrentMameRomChanged()
     {
         GamePreviewControl.Visibility = Visibility.Visible;
@@ -106,6 +112,8 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         OnPropertyChanged(nameof(CurrentMameRomLogoPath));
         OnPropertyChanged(nameof(CurrentMameRomSnapPath));
         OnPropertyChanged(nameof(CurrentMameRomPreviewPath));
+        OnPropertyChanged(nameof(NextMameRomLogoPath));
+        OnPropertyChanged(nameof(PreviousMameRomLogoPath));
     }
 
     public string? Controller1Name => _controllerManager.Controller1Name;

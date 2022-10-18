@@ -104,7 +104,16 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="80" />
             </Grid.RowDefinitions>
-            <Image Grid.Row="0" Source="{Binding CurrentMameRomLogoPath, FallbackValue={StaticResource DefaultLogo}, TargetNullValue={StaticResource DefaultLogo}}" Margin="10,10,10,10" />
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="200" />
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" Source="{Binding PreviousMameRomLogoPath, FallbackValue={StaticResource DefaultLogo}, TargetNullValue={StaticResource DefaultLogo}}" Margin="-90,10,100,10" />
+                <Image Grid.Column="1" Source="{Binding CurrentMameRomLogoPath, FallbackValue={StaticResource DefaultLogo}, TargetNullValue={StaticResource DefaultLogo}}" Margin="10,10,10,10" />
+                <Image Grid.Column="2" Source="{Binding NextMameRomLogoPath, FallbackValue={StaticResource DefaultLogo}, TargetNullValue={StaticResource DefaultLogo}}" Margin="100,10,-90,10" />
+            </Grid>
             <Grid Grid.Row="1" Margin="10,10,10,10">
                 <MediaElement x:Name="GameSnapControl" Visibility="Hidden" Source="{Binding CurrentMameRomSnapPath}" LoadedBehavior="Manual" MediaEnded="GameSnapControl_Play" Loaded="GameSnapControl_Play" MediaOpened="GameSnapControl_MediaOpened" />
                 <Image x:Name="GamePreviewControl" Source="{Binding CurrentMameRomPreviewPath, FallbackValue={StaticResource DefaultPreview}, TargetNullValue={StaticResource DefaultPreview}}" />
