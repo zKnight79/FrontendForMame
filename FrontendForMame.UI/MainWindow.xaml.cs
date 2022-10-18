@@ -23,11 +23,12 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     private readonly IConfiguration _configuration;
     private readonly IMameService _mameService;
     private readonly IControllerManager _controllerManager;
-    private readonly DispatcherTimer _dispatcherTimer = new()
+    private readonly DispatcherTimer _controllerDispatcher = new()
     {
         Interval = TimeSpan.FromMilliseconds(25),
         IsEnabled = false
     };
+    private DispatcherTimer? _scrollDispatcher;
 
     public MainWindow(IConfiguration configuration, IMameService mameService, IControllerManager controllerManager)
     {
@@ -69,7 +70,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         #endregion
     }
 
-    public string Version => App.Version;
+    public static string Version => App.Version;
 
     public IEnumerable<MameRomDef>? MameRomDefs { get; set; }
     public int CurrentMameRomDefId { get; set; }
@@ -121,6 +122,8 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     public string ControllerTestHeight => _configuration.GetControllerTestMode() ? "*" : "0";
     public string Controller1Buttons => $"[{string.Join(", ", _controllerManager.GetPressedButtons().ElementAt(0))}]";
     public string Controller2Buttons => $"[{string.Join(", ", _controllerManager.GetPressedButtons().ElementAt(1))}]";
+
+    public int AutoScrollGamesDelay => _configuration.GetAutoScrollGamesDelay();
 
 
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -178,13 +181,23 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         OnPropertyChanged(nameof(Controller1Name));
         OnPropertyChanged(nameof(Controller2Name));
 
-        _dispatcherTimer.Tick += (sender, e) =>
+        _controllerDispatcher.Tick += (sender, e) =>
         {
             _controllerManager.Update();
             OnPropertyChanged(nameof(Controller1Buttons));
             OnPropertyChanged(nameof(Controller2Buttons));
         };
-        _dispatcherTimer.Start();
+        _controllerDispatcher.Start();
+
+        if (AutoScrollGamesDelay > 0)
+        {
+            _scrollDispatcher = new()
+            {
+                Interval = TimeSpan.FromSeconds(AutoScrollGamesDelay)
+            };
+            _scrollDispatcher.Tick += (sender, e) => Right_Click(this, new());
+            _scrollDispatcher.Start();
+        }
     }
 
     private void Left_Click(object sender, RoutedEventArgs e)
@@ -199,11 +212,13 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void Launch_Click(object sender, RoutedEventArgs e)
     {
-        _dispatcherTimer.Stop();
+        _scrollDispatcher?.Stop();
+        _controllerDispatcher.Stop();
         GameSnapControl.Pause();
         _mameService.LaunchGame(CurrentMameRomDef);
         GameSnapControl.Play();
-        _dispatcherTimer.Start();
+        _controllerDispatcher.Start();
+        _scrollDispatcher?.Start();
     }
 
     private void GameSnapControl_Play(object sender, RoutedEventArgs e)

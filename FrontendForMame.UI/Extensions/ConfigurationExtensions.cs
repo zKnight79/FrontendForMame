@@ -10,6 +10,7 @@ public static class ConfigurationExtensions
     private const string CUSTOMIZEDTITLE_KEY = "CustomizedTitle";
     private const string USEVIDEOOPENEDHACK_KEY = "UseVideoOpenedHack";
     private const string CONTROLLERTESTMODE_KEY = "ControllerTestMode";
+    private const string AUTOSCROLLGAMESDELAY_KEY = "AutoScrollGamesDelay";
 
     public static bool GetLaunchFullscreen(this IConfiguration configuration)
         => configuration.GetValue<bool>(LAUNCHFULLSCREEN_KEY);
@@ -25,6 +26,9 @@ public static class ConfigurationExtensions
 
     public static bool GetControllerTestMode(this IConfiguration configuration)
         => configuration.GetValue<bool>(CONTROLLERTESTMODE_KEY);
+
+    public static int GetAutoScrollGamesDelay(this IConfiguration configuration)
+        => configuration.GetValue<int>(AUTOSCROLLGAMESDELAY_KEY);
 
     public static MameConfig GetMameConfig(this IConfiguration configuration)
     {
