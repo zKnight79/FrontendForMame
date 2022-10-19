@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace FrontendForMame.UI.Services;
 
@@ -75,7 +76,7 @@ class MameService : IMameService
     public string? GetRomPreviewPath(MameRomDef? romDef)
         => GetRomAssetPath(romDef, _mameConfig.RomPreviewDirectory, "png", "jpg", "bmp");
 
-    public void LaunchGame(MameRomDef? romDef)
+    public async Task LaunchGame(MameRomDef? romDef)
     {
         if (romDef is not null)
         {
@@ -95,7 +96,10 @@ class MameService : IMameService
                 mameExePath,
                 args.ToArray()
             );
-            process?.WaitForExit();
+            if (process is not null)
+            {
+                await process.WaitForExitAsync();
+            }
         }
     }
 }

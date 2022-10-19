@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -59,13 +58,13 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         #endregion
 
         #region CONTROLLER EVENTS
-        _controllerManager.OnRight += () => Right_Click(this, null!);
-        _controllerManager.OnLeft += () => Left_Click(this, null!);
+        _controllerManager.OnRight += Right_Click;
+        _controllerManager.OnLeft += Left_Click;
         if (!_configuration.GetControllerTestMode())
         {
-            _controllerManager.OnLaunch += () => Launch_Click(this, null!);
-            _controllerManager.OnExit += () => Exit_Click(this, null!);
-            _controllerManager.OnShutdown += () => Shutdown_Click(this, null!);
+            _controllerManager.OnLaunch += Launch_Click;
+            _controllerManager.OnExit += Exit_Click;
+            _controllerManager.OnShutdown += Shutdown_Click;
         }
         #endregion
     }
@@ -80,7 +79,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     public string? CurrentMameRomSnapPath => _mameService?.GetRomSnapPath(CurrentMameRomDef);
     public string? CurrentMameRomPreviewPath => _mameService?.GetRomPreviewPath(CurrentMameRomDef);
 
-    public int NextMameRomDefId => MameRomDefCount==0 ? 0 :(CurrentMameRomDefId + 1) % MameRomDefCount;
+    public int NextMameRomDefId => MameRomDefCount == 0 ? 0 : (CurrentMameRomDefId + 1) % MameRomDefCount;
     public int PreviousMameRomDefId => MameRomDefCount == 0 ? 0 : (MameRomDefCount + CurrentMameRomDefId - 1) % MameRomDefCount;
     public MameRomDef? NextMameRomDef => MameRomDefs?.ElementAt(NextMameRomDefId);
     public MameRomDef? PreviousMameRomDef => MameRomDefs?.ElementAt(PreviousMameRomDefId);
@@ -212,12 +211,12 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         ChangeCurrentMameRomDef(1);
     }
 
-    private void Launch_Click(object sender, RoutedEventArgs e)
+    private async void Launch_Click(object sender, RoutedEventArgs e)
     {
         _scrollDispatcher?.Stop();
         _controllerDispatcher.Stop();
         GameSnapControl.Pause();
-        _mameService.LaunchGame(CurrentMameRomDef);
+        await _mameService.LaunchGame(CurrentMameRomDef);
         GameSnapControl.Play();
         _controllerDispatcher.Start();
         _scrollDispatcher?.Start();

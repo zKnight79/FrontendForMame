@@ -1,5 +1,6 @@
 ﻿using FrontendForMame.UI.Model;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FrontendForMame.UI.Services;
 
@@ -9,5 +10,5 @@ public interface IMameService
     string? GetRomLogoPath(MameRomDef? romDef);
     string? GetRomSnapPath(MameRomDef? romDef);
     string? GetRomPreviewPath(MameRomDef? romDef);
-    void LaunchGame(MameRomDef? romDef);
+    Task LaunchGame(MameRomDef? romDef);
 }

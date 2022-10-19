@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using SharpDX.DirectInput;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 
 namespace FrontendForMame.UI.Services;
 
@@ -21,11 +22,11 @@ class ControllerManager : IControllerManager
     public string? Controller1Name => _controllers[0]?.Name;
     public string? Controller2Name => _controllers[1]?.Name;
 
-    public event ControllerManagerEventHandler? OnRight;
-    public event ControllerManagerEventHandler? OnLeft;
-    public event ControllerManagerEventHandler? OnLaunch;
-    public event ControllerManagerEventHandler? OnExit;
-    public event ControllerManagerEventHandler? OnShutdown;
+    public event RoutedEventHandler? OnRight;
+    public event RoutedEventHandler? OnLeft;
+    public event RoutedEventHandler? OnLaunch;
+    public event RoutedEventHandler? OnExit;
+    public event RoutedEventHandler? OnShutdown;
 
     public void Init()
     {
@@ -60,35 +61,35 @@ class ControllerManager : IControllerManager
                 #region RIGHT EVENT
                 if (gameController.JustHitRight())
                 {
-                    OnRight?.Invoke();
+                    OnRight?.Invoke(this, null);
                     break;
                 }
                 #endregion
                 #region LEFT EVENT
                 if (gameController.JustHitLeft())
                 {
-                    OnLeft?.Invoke();
+                    OnLeft?.Invoke(this, null);
                     break;
                 }
                 #endregion
                 #region LAUNCH EVENT
                 if (gameController.JustHitButton(_controllerConfig.GetLaunchButton(i)))
                 {
-                    OnLaunch?.Invoke();
+                    OnLaunch?.Invoke(this, null);
                     break;
                 }
                 #endregion
                 #region EXIT EVENT
                 if (gameController.JustHitButton(_controllerConfig.GetExitButton(i)))
                 {
-                    OnExit?.Invoke();
+                    OnExit?.Invoke(this, null);
                     break;
                 }
                 #endregion
                 #region SHUTDOWN EVENT
                 if (gameController.JustHitButton(_controllerConfig.GetShutdownButton(i)))
                 {
-                    OnShutdown?.Invoke();
+                    OnShutdown?.Invoke(this, null);
                     break;
                 }
                 #endregion
