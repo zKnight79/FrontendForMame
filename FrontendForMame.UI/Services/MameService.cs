@@ -83,14 +83,29 @@ class MameService : IMameService
             List<string> args = new()
             {
                 romDef.RomName,
-                $"-inipath \"{_mameConfig.MameDirectory}\"",
-                "-joystickprovider winhybrid"
+                $"-inipath \"{_mameConfig.MameDirectory}\""
             };
             if (_mameConfig.SkipGameInfo)
             {
                 args.Add("-skip_gameinfo");
             }
-            
+            if (_mameConfig.UseJoystickProviderWinHybrid)
+            {
+                args.Add("-joystickprovider winhybrid");
+            }
+            if (_mameConfig.UseWindowedMode)
+            {
+                args.Add("-window");
+                if (!_mameConfig.MaximizeWindow)
+                {
+                    args.Add("-nomaximize");
+                }
+            }
+            foreach (string arg in _mameConfig.AdditionnalArguments)
+            {
+                args.Add(arg);
+            }
+
             string mameExePath = Path.Combine(_mameConfig.MameDirectory, "mame.exe");
             Process? process = ProcessHelper.ExecuteProcess(
                 mameExePath,

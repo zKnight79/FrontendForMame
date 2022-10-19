@@ -1,4 +1,6 @@
-﻿namespace FrontendForMame.UI.Model
+﻿using System.Collections.Generic;
+
+namespace FrontendForMame.UI.Model
 {
     public record MameConfig(
         string RomListJsonSource,
@@ -6,7 +8,11 @@
         string RomSnapDirectory,
         string RomPreviewDirectory,
         string MameDirectory,
-        bool SkipGameInfo
+        bool SkipGameInfo,
+        bool UseJoystickProviderWinHybrid,
+        bool UseWindowedMode,
+        bool MaximizeWindow,
+        List<string> AdditionnalArguments
     )
     {
         public MameConfig()
@@ -16,7 +22,11 @@
                   "./Snaps",
                   "./Previews",
                   "./MAME",
-                  true
+                  true,
+                  false,
+                  false,
+                  true,
+                  new()
               )
         { }
     }
